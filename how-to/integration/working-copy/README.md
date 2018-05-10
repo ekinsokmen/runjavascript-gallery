@@ -6,7 +6,7 @@
 ```
 {
   "repo": "runjavascript-gallery",
-  "path": "samples/tfl/tfl-bus.js",
+  "path": "samples/hello-world.js",
   "key": "YOUR-KEY"
 }
 ```
