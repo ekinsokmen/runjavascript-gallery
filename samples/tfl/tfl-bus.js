@@ -14,7 +14,8 @@ function loadAndDisplayTimeTable(selectedFinalStopPromise) {
   displayTimeTable(timeTableDataPromise).catch(handleError);
 };
 runjs.custom = {
-  reload : () => loadAndDisplayTimeTable(selectedFinalStopPromise)
+  reload : () => loadAndDisplayTimeTable(selectedFinalStopPromise),
+  toggleIdleTimerState : toggleIdleTimerState
 }
 runjs.custom.reload();
 
@@ -22,6 +23,8 @@ runjs.custom.reload();
 //
 // Functions
 //
+var idleTimerState = true;
+
 function calcLongDist(lat){return 111-((111/90)*Math.abs(lat))}
 function longitudeDistanceToDegree(latitude, meters) {return (meters/(1000 * calcLongDist(latitude)))}
 function latitudeDistanceToDegree(meters) {return meters/(1000*111)}
@@ -263,6 +266,19 @@ function setReloadingImgVisibility(visible) {
   setElementVisibility("reloadingImg", visible);
 }
 
+function toggleIdleTimerState() {
+  idleTimerState = !idleTimerState;
+  runjs.setIdleTimerState(idleTimerState);
+  var el = document.getElementById("screenLockOffOnImg");
+  if (el) {
+    if (idleTimerState) {
+      el.style.opacity = 1.0;
+    } else {
+      el.style.opacity = 0.5;
+    }
+  }    
+}
+
 function setElementVisibility(id, visible) {
   var el = document.getElementById(id);
   if (el) {
@@ -297,13 +313,17 @@ async function displayTimeTable(timeTableDataPromise) {
   `
   var closeButton=`
   <div style="position: fixed;bottom: 5px;left: 90%; opacity: 1.0;">
-    <small>
       <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" onclick="runjs.close()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-    </small>
   </div>
   `
 
-  output += "<center>" + reloadButton + reloadingImg + "</center>" + closeButton;
+  var screenLockOnImg = `
+  <div id="screenLockOffOnImg" style="position: fixed;bottom: 5px;left: 5%; opacity: 1.0;">
+  <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" onclick="runjs.custom.toggleIdleTimerState()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+  </div>
+  `;
+  
+  output += "<center>" + reloadButton + reloadingImg + "</center>" + closeButton + screenLockOnImg;
   document.getElementsByTagName("body")[0].innerHTML=output;
   setTimeout(updateTimeTable, 1000);
 }
