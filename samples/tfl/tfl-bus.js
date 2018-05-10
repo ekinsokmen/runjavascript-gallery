@@ -146,7 +146,7 @@ function askForStopName(stops) {
   var resolve, reject;
   var promise = new Promise((res, rej) => {resolve=res; rej=reject;});
   var stopsByName = {};
-  stops.forEach(s => {
+  stops.filter(s => s.towards).forEach(s => {
     if (!stopsByName[s.name]) {
       stopsByName[s.name] = [s];
     } else {
