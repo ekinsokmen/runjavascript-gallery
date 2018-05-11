@@ -1,4 +1,6 @@
 # _RunJavaScript_ Gallery
-[**RunJavaScript**](https://itunes.apple.com/us/app/runjavascript/id1254402852)  IOS App Knowledge and Sample Gallery.
+### [RunJavaScript IOS App](https://itunes.apple.com/us/app/runjavascript/id1254402852) Knowledge and Sample Gallery.
 
-Feel free to share your public scripts here.
+[RunJavaScript](http://runjavascript.beliso.uk/) provides a JavaScript development environment directly on your IOS device. You can build, integrate and automate using RunJavaScript. It is a powerful companion if you integrate it with other apps using the x-callback-url specification.
+
+Feel free to share your public scripts or tips here.
