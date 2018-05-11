@@ -5,6 +5,7 @@ var searchTypePromise = Alert.alert("Choose Stop Search Type:", "", [{text: "By 
 var locationPromise = navigator.geolocation.getCurrentPosition(null,null,{locationAccuracyInMeters: dist * 2}).catch(handleError);
 var stopsNearByPromise = getStopsNearBy(locationPromise).catch(handleError);
 applyStyle();
+appleTemplate();
 var selectedStopPromise = getSelectedStop(searchTypePromise, stopsNearByPromise).catch(handleError);
 var selectedFinalStopPromise = getSelectedFinalStop(selectedStopPromise);
 function loadAndDisplayTimeTable(selectedFinalStopPromise) {
@@ -132,6 +133,28 @@ function applyStyle() {
     text-align: right;
   }
   `);
+}
+
+function appleTemplate() {
+  var template = `
+  <center><div id="timeTableDiv"></div></center>
+  <center>
+  <svg id='reloadButton' onclick="runjs.custom.reload()" style="color: white; position: fixed;bottom: 5px; left: 54px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw">
+  <polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline>
+  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+  </svg>
+  <svg id='reloadingImg' style="color: white; opacity: 0.5; position: fixed;bottom: 5px; left: 54px; display: none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader" color="#384047" data-reactid="696">
+  <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+  </svg>
+  </center>
+  <div style="position: fixed;bottom: 5px;right: 10px; opacity: 1.0;">
+      <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" onclick="runjs.close()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+  </div>
+  <div id="screenLockOffOnImg" style="position: fixed;bottom: 5px;left: 10px; opacity: 1.0;">
+  <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" onclick="runjs.custom.toggleIdleTimerState()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+  </div>
+  `;  
+  document.getElementsByTagName("body")[0].innerHTML=template;  
 }
 
 function askForStopLetter(stops) {
@@ -299,31 +322,8 @@ async function displayTimeTable(timeTableDataPromise) {
     var minStr = calcActualTimeToStationMinutesStr(mins);
     output += "<div class='depb'><span class='left'>" + t.line + "</span><span id='tti_" + i + "' class='right'>" + minStr + "</span></div>";
   });
-  output = "<center>" + output + "</center>";
-  var reloadButton = `
-  <svg id='reloadButton' onclick="runjs.custom.reload()" style="color: white;margin-top: 10px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw">
-  <polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline>
-  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-  </svg>
-  `
-  var reloadingImg = `
-  <svg id='reloadingImg' style="color: white;margin-top: 10px; display: none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader" color="#384047" data-reactid="696">
-  <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
-  </svg>
-  `
-  var closeButton=`
-  <div style="position: fixed;bottom: 5px;left: 90%; opacity: 1.0;">
-      <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" onclick="runjs.close()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-  </div>
-  `
-
-  var screenLockOnImg = `
-  <div id="screenLockOffOnImg" style="position: fixed;bottom: 5px;left: 5%; opacity: 1.0;">
-  <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" onclick="runjs.custom.toggleIdleTimerState()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-  </div>
-  `;
-  
-  output += "<center>" + reloadButton + reloadingImg + "</center>" + closeButton + screenLockOnImg;
-  document.getElementsByTagName("body")[0].innerHTML=output;
+  document.getElementById("timeTableDiv").innerHTML=output;
+  showReloadButtonVisibility(true);
+  setReloadingImgVisibility(false);
   setTimeout(updateTimeTable, 1000);
 }
