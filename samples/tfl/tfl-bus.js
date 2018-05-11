@@ -5,7 +5,7 @@ var searchTypePromise = Alert.alert("Choose Stop Search Type:", "", [{text: "By 
 var locationPromise = navigator.geolocation.getCurrentPosition(null,null,{locationAccuracyInMeters: dist * 2}).catch(handleError);
 var stopsNearByPromise = getStopsNearBy(locationPromise).catch(handleError);
 applyStyle();
-appleTemplate();
+applyTemplate();
 var selectedStopPromise = getSelectedStop(searchTypePromise, stopsNearByPromise).catch(handleError);
 var selectedFinalStopPromise = getSelectedFinalStop(selectedStopPromise);
 function loadAndDisplayTimeTable(selectedFinalStopPromise) {
@@ -135,7 +135,7 @@ function applyStyle() {
   `);
 }
 
-function appleTemplate() {
+function applyTemplate() {
   var template = `
   <center><div id="timeTableDiv"></div></center>
   <center>
