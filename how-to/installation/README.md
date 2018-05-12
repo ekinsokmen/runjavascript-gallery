@@ -2,10 +2,10 @@ There are multiple ways to install and run scripts in RunJavaScript. Here are so
 * Use in-line editor and edit manually
 * Copy/paste
 * Use the bookmarklet below to open single file scripts
-* Use IOS files to copy files
-* Use other apps like Working Copy to edit, store scrips. [See this page](../integration/working-copy/README.md).
-* Use Workflow to open scripts. [See this page](../integration/workflow/README.md)
-* Use webdav server to mount documents directory on your laptop
+* Use IOS Files app to copy files from other apps
+* Use other apps like Working Copy to edit and store scrips. [See this page](../integration/working-copy/README.md).
+* Use Workflow to open scripts and integrate. [See this page](../integration/workflow/README.md)
+* Use integrated webdav server to mount documents directory on your laptop, use git, node.js etc. to build.
 
 ### Bookmarklet URL:
 Add this bookmarklet to your bookmarks and run it on sample script page to open the script in RunJavaScript. Source code is [here](open-remote-script-in-editor.js).
