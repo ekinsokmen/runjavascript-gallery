@@ -10,6 +10,7 @@ urlPromise.then(checkURL)
 .then(handleIconAnnotation)
 .then(handleBaseURLAnnotation)
 .then(handleDefaultInputAnnotation)
+.then(handleFileNameAnnotation)
 .then(prepareTargetURL)
 .then(u => {
   runjs.redirect(u);
@@ -37,6 +38,11 @@ const handleDefaultInputAnnotation = o => {
  return o;
 };
 
+const handleFileNameAnnotation = o => {
+ o.file = getAnnotationValue(o.script, "FileName");
+ return o;
+};
+
 const getAnnotationValue = (content, annoStr) => {
  let val = "";
  let match = content.match("@" + annoStr + "\\(\"(.*)\"\\)");
@@ -51,6 +57,7 @@ const prepareTargetURL = o => {
  if (o.icon) url = url + "icon=" + encodeURIComponent(o.icon) + "&";
  if (o.baseURL) url = url + "baseURL=" + encodeURIComponent(o.baseURL) + "&";
  if (o.input) url = url + "input=" + encodeURIComponent(o.input) + "&";
+ if (o.file) url = url + "file=" + encodeURIComponent(o.file) + "&";
  url = url + "script=" + encodeURIComponent(o.script);
  return url;
 };
