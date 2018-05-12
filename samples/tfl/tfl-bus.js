@@ -1,5 +1,6 @@
 /*
 @HomeScreenIcon("https://botw-pd.s3.amazonaws.com/styles/logo-original-577x577/s3/0017/1618/brand.gif")
+@BaseURL("https://tfl.gov.uk")
 */
 
 var timeTableItems;
