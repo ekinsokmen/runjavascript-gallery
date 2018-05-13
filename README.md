@@ -8,4 +8,4 @@
 
 Feel free to share your public scripts or tips here.
 
-<a href="https://itunes.apple.com/us/app/runjavascript/id1254402852?mt=8&at=10l6Xd" style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/assets/shared/badges/en-us/appstore-lrg.svg) no-repeat;width:135px;height:40px;background-size:contain;"></a>
+[![](https://linkmaker.itunes.apple.com/assets/shared/badges/en-us/appstore-lrg.svg)](https://itunes.apple.com/us/app/runjavascript/id1254402852?mt=8&at=10l6Xd)
