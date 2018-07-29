@@ -1,3 +1,4 @@
+This sample demonstrates the `openXCallBackURL` method of RunJavaScript. The script calls another application (Workflow) to get the battery level and displays a simple meter.
 
 1. Install the Workflow to read battery level using this [link][1].
 2. Copy and run the `battery-meter.js` script in RunJavaScript app.
