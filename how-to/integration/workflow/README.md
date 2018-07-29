@@ -2,7 +2,6 @@
 
 # Useful Workflows
 
-
 ## Open URL in RunJavaScript
 Workflow to load a script from given URL and pass the content to RunJavaScript. It is an action extension. You can trigger it from safari or other browser. If the URL is a github file, raw version will be loaded instead. 
 
@@ -14,3 +13,7 @@ Workflow to load a script from given URL and pass the content to RunJavaScript. 
 Action extension workflow to open input file in RunJavaScript editor.
 
 [install](https://workflow.is/workflows/f0a95bb06a6a43b8857789abb0a796ef)
+
+# Sample Workflows
+## Battery Meter
+RunJavaScript and Workflow integration pattern using openXCallBackURL. [Read more ...](https://github.com/ekinsokmen/runjavascript-gallery/blob/master/how-to/integration/workflow/battery-meter/README.md)
