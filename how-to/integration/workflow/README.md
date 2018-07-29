@@ -17,3 +17,6 @@ Action extension workflow to open input file in RunJavaScript editor.
 # Sample Workflows
 ## Battery Meter
 RunJavaScript and Workflow integration pattern using openXCallBackURL. [Read more ...](https://github.com/ekinsokmen/runjavascript-gallery/blob/master/how-to/integration/workflow/battery-meter/README.md)
+
+## Watermark
+Add a watermark text on top of images using RunJavaScript and Workflow. [Read more ...](https://github.com/ekinsokmen/runjavascript-gallery/blob/master/how-to/integration/workflow/watermark/README.md)
