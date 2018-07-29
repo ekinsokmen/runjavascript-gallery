@@ -1,5 +1,5 @@
 /*
- Open the tomato timer web page and disable screen lock.
+ Open the tomato timer web page and disable screen lock. Shake screen to display the developer menu.
  
  @FileName("https://tomato-timer.com/")
 */
