@@ -5,14 +5,12 @@ var template=`
 </div>
 `;
 
-runjs.openXCallBackURL(
-  'workflow://x-callback-url/run-workflow?name=GetBatteryLevel',
-'result'
-).then(battery => {
-  var decimalLevel = parseInt(battery)/100;
-  runjs.printHTML(
-    template
-      .replace(/##P##/g, battery)
-      .replace(/##DP##/g, decimalLevel)
-  );
-});
+runjs.openXCallBackURL('workflow://x-callback-url/run-workflow?name=GetBatteryLevel', 'result')
+  .then(battery => {
+    var decimalLevel = parseInt(battery)/100;
+    runjs.printHTML(
+      template
+        .replace(/##P##/g, battery)
+        .replace(/##DP##/g, decimalLevel)
+    );
+  });
