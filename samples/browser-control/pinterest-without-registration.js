@@ -17,16 +17,15 @@ if (window.self === window.top) {
   }
   
   function addNavButtons() {
-    var size=32;
     runjs.printHTML(`
     <div style="position: fixed;bottom: 5px;right: 10px; opacity: 1.0; z-index: 1000000000;">
-      <svg id="runjsNavBarBack" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" style="color: black;" viewBox="0 0 ${size} ${size}" fill="none" stroke="currentColor" stroke-width="2"
+      <svg id="runjsNavBarBack" xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="color: black;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left-circle">
         <circle cx="12" cy="12" r="10"></circle>
         <polyline points="12 8 8 12 12 16"></polyline>
         <line x1="16" y1="12" x2="8" y2="12"></line>
       </svg>
-      <svg id="runjsNavBarClose" xmlns="http://www.w3.org/2000/svg" style="color: black;" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"
+      <svg id="runjsNavBarClose" xmlns="http://www.w3.org/2000/svg" style="color: black;" width="24" height="24" viewBox="0 0 24 24"
         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="15" y1="9" x2="9" y2="15"></line>
