@@ -2,6 +2,8 @@
 Pinterest without registration
 - Opens pinterest categories and removed registration/login panels. 
 - Adds two buttons to navigate back and close the page
+
+@HomeScreenIcon("https://i.pinimg.com/280x280_RS/2a/7b/03/2a7b033cab1fb113735cdc2e1410bc48.jpg")
 */
 
 // Run only in top level frame
