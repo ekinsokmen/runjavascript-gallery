@@ -1,6 +1,6 @@
 /*
 @HomeScreenIcon("https://botw-pd.s3.amazonaws.com/styles/logo-original-577x577/s3/0017/1618/brand.gif")
-@BaseURL("https://tfl.gov.uk")
+@BaseURL("https://api.tfl.gov.uk")
 */
 
 var timeTableItems;
@@ -44,7 +44,7 @@ async function getStopsNearBy (locationPromise) {
   var swLon = position.coords.longitude - longitudeDistanceToDegree(position.coords.latitude, dist);
   var neLat = position.coords.latitude + latitudeDistanceToDegree(dist);
   var neLon = position.coords.longitude + longitudeDistanceToDegree(position.coords.latitude, dist);  
-  var tflURL = 'https://api-radon.tfl.gov.uk/StopPoint?'
+  var tflURL = 'https://api.tfl.gov.uk/StopPoint?'
     + 'swLat=' + swLat 
     + '&swLon=' + swLon 
     + '&neLat=' + neLat 
