@@ -7,7 +7,15 @@ var timeTableItems;
 var dist = 500/2;
 
 var searchTypePromise = Alert.alert("Choose Stop Search Type:", "", [{text: "By Letter"}, {text: "By Name"}]);
-var locationPromise = navigator.geolocation.getCurrentPosition(null,null,{locationAccuracyInMeters: dist * 2}).catch(handleError);
+
+var input = runjs.getInput().json();
+var locationPromise;
+if (input.latitude && input.longitude){
+  locationPromise = new Promise((resolve, reject) => resolve({coords:{latitude: input.latitude, longitude: input.longitude}}));
+} else {
+  locationPromise = navigator.geolocation.getCurrentPosition(null,null,{locationAccuracyInMeters: dist * 2}).catch(handleError);
+}
+
 var stopsNearByPromise = getStopsNearBy(locationPromise).catch(handleError);
 applyStyle();
 applyTemplate();
