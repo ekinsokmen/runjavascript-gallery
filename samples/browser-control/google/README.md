@@ -22,5 +22,6 @@ You can chain together scripts and use output of one script as input of another.
 ```
 runjs.openInSafari('runjavascript://x-callback-url/run?script=&file=choose_location_on_google_maps.js&x-success=runjavascript://x-callback-url/run%3Fscript%3D%26file%3Dtfl-bus.js')
 ```
+###### choose_location_on_google_maps.js and tfl-bus.js need to be stored in top level documents folder of RunJavaScript app.
 
 ![Script Chaining Demo](demo.gif)
