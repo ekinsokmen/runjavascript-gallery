@@ -4,5 +4,5 @@ This sample adds a given text as a watermark on top of a chosen image. The examp
 
 [1]: https://workflow.is/workflows/15f726cbeee04834b406b6a1ed7e6f13
 
-#### Demo Video
-[![Demo Video](https://img.youtube.com/vi/wfZSg-qG_b0/0.jpg)](https://www.youtube.com/watch?v=wfZSg-qG_b0)
+#### Demo
+![Watermark Demo](watermark_anim.gif)
