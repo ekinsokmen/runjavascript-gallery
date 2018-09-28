@@ -2,7 +2,7 @@ This sample adds a given text as a watermark on top of a chosen image. The examp
 
 [install workflow][1]
 
-[1]: https://workflow.is/workflows/15f726cbeee04834b406b6a1ed7e6f13
+[1]: https://www.icloud.com/shortcuts/beae98b2379e4c089f50acdf60e2173a
 
 #### Demo
 ![Watermark Demo](watermark_anim.gif)
