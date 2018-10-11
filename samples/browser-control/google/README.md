@@ -1,5 +1,5 @@
 # Adding Custom Navigation Button to Google Maps
-This scripts opens Google Maps and adds a new button to call `runjs.callBack(...)` function. After choosing a place on the map the button navigates to x-success URL including the location data as `input` parameter. 
+This script opens Google Maps and adds a new button to call `runjs.callBack(...)` function. After choosing a place on the map the button navigates to x-success URL including the location data as `input` parameter. 
 
 ### Sample response data returned through x-callback:
 ```
