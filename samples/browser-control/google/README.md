@@ -11,6 +11,8 @@ This scripts opens Google Maps and adds a new button to call `runjs.callBack(...
     url: "https://www.google.co.uk/maps/dir/51.502944,-0.259449/Science+Museum+Exhibition+Rd/@51.4964981,-0.2516161,13z/data=!3m2!4b1!5s0x4876055ccd3a7de3:0x68cad3184144cba0!4m15!1m6!3m5!1s0x487605431300da3f:0x21d54ea6148622de!2sScience+Museum!8m2!3d51.4978095!4d-0.1745235!4m7!1m0!1m5!1m1!1s0x487605431300da3f:0x21d54ea6148622de!2m2!1d-0.1745235!2d51.4978095"
 }
 ```
+### Demo Using Apple Shortcuts
+Click to install [demo shortcut](https://www.icloud.com/shortcuts/1767c6323ed24569a0fb45d3e565867a)
 
 ### Screenshot of running script:
 ![Google Maps with custom navigation button](choose_location_on_google_maps.jpg "Sample screenshot")
