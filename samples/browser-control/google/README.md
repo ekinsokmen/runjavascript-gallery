@@ -16,7 +16,7 @@ This scripts opens Google Maps and adds a new button to call `runjs.callBack(...
 ![Google Maps with custom navigation button](choose_location_on_google_maps.jpg "Sample screenshot")
 
 # Chaining Scripts
-You can chain together scripts and use output of one script as input of another. Below is a sample script chaining [Google Maps Script](choose_location_on_google_maps.js) and [TFL Bus Timetable Script](../../tfl/tfl-bus.js). The coordinates provided by Google Maps Script will be used by Bus Stop script instead of current location.
+You can chain together scripts and use output of one script as input of another. Below is a sample script chaining [Google Maps Script](choose_location_on_google_maps.js) and [TFL Bus Timetable Script](../../tfl/tfl-bus.js). The coordinates provided by Google Maps Script will be used by Bus Stop script instead of current location (`choose_location_on_google_maps.js` and `tfl-bus.js` need to be stored in top level documents folder of RunJavaScript app).
 
 ### Sample chaining
 ```

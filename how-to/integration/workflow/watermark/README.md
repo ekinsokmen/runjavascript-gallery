@@ -1,8 +1,8 @@
-This sample adds a given text as a watermark on top of a chosen image. The example is based on Workflow and RunJavaScript Apps. For convenience, the script is embedded into a workflow. The workflow can be installed using this [link][1]. The script is included as `add_watermark.js` on GitHub for reference.
+This sample adds a given text as a watermark on top of a chosen image. The example is based on Workflow and RunJavaScript Apps. For convenience, the script is embedded into a workflow. The workflow can be installed using this [link][1]. The script is included as [`add_watermark.js`](add_watermark.js) on GitHub for reference.
 
 [install workflow][1]
 
-[1]: https://workflow.is/workflows/15f726cbeee04834b406b6a1ed7e6f13
+[1]: https://www.icloud.com/shortcuts/beae98b2379e4c089f50acdf60e2173a
 
-#### Demo Video
-[![Demo Video](https://img.youtube.com/vi/wfZSg-qG_b0/0.jpg)](https://www.youtube.com/watch?v=wfZSg-qG_b0)
+#### Demo
+![Watermark Demo](watermark_anim.gif)
