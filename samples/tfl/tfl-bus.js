@@ -6,6 +6,10 @@
 var timeTableItems;
 var dist = 500/2;
 
+const DISPLAY_MINUTES = timeAtStation => timeAtStation.inMinutesFormat
+const DISPLAY_HOUR = timeAtStation => timeAtStation.inHourFormat
+let timeDisplayFunction = DISPLAY_MINUTES;
+
 var searchTypePromise = Alert.alert("Choose Stop Search Type:", "", [{text: "By Letter"}, {text: "By Name"}]);
 
 var input = runjs.getInput().json();
@@ -29,7 +33,8 @@ function loadAndDisplayTimeTable(selectedFinalStopPromise) {
 };
 runjs.custom = {
   reload : () => loadAndDisplayTimeTable(selectedFinalStopPromise),
-  toggleIdleTimerState : toggleIdleTimerState
+  toggleIdleTimerState : toggleIdleTimerState,
+  toggleTimeFormat : toggleTimeFormat
 }
 runjs.custom.reload();
 
@@ -166,6 +171,7 @@ function applyTemplate() {
   <div id="screenLockOffOnImg" style="position: fixed;bottom: 5px;left: 10px; opacity: 1.0;">
   <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" onclick="runjs.custom.toggleIdleTimerState()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
   </div>
+  <svg id="toggleTimeFormatImg" style="color: white; position: fixed;bottom: 5px;left: 98px; opacity: 0.5;" onclick="runjs.custom.toggleTimeFormat()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
   `;  
   document.getElementsByTagName("body")[0].innerHTML=template;  
 }
@@ -256,41 +262,65 @@ async function loadTimeTable (selectedFinalStopPromis) {
   console.log("TFL URL", tflURL);
   var response = await fetch(tflURL);
   var timeTable = await response.json();
-  var nowInSecs = Math.round(new Date().getTime() / 1000);
-  var simpleTimeTable = timeTable.map(t => {
-    return {line: t.lineName, timeAtStation: (nowInSecs + t.timeToStation)}
-  });
+  var simpleTimeTable = timeTable.map(t => new TimeTableItem(t.vehicleId, t.lineName, t.timeToStation));
   console.log("time table", simpleTimeTable);
   return {stop: selectedStop, timeTable: simpleTimeTable};
 }
 
-function calcActualTimeToStationMinutes(timeAtStation) {
-  var nowInSecs = Math.round(new Date().getTime() / 1000);
-  return Math.round((timeAtStation - nowInSecs) / 60);
+class TimeTableItem {
+
+  constructor(vehicleId, lineName, secondsToStation) {
+    this.timeAtStation = new TimeAtStation(secondsToStation);
+    this.lineName = lineName;
+    this.vehicleId = vehicleId;
+  }
+
 }
 
-function calcActualTimeToStationMinutesStr(mins) {
-  var minsStr = mins + " mins";
-  if (mins <= 0) {
-    minsStr = "due";
-  } 
-  return minsStr;
+class TimeAtStation {
+
+  constructor(secondsToStation) {
+    this.time = (secondsToStation * 1000) + new Date().getTime()
+  }
+
+  get inHourFormat() {
+    const dateAtStation = new Date(this.time);
+    let hours = dateAtStation.getHours().toString();
+    let minutes = dateAtStation.getMinutes().toString();
+    if (hours.length < 2) hours = `0${hours}`;
+    if (minutes.length < 2) minutes = `0${minutes}`;
+    return `${hours}:${minutes}`;  
+  }
+
+  get inMinutes() {
+    return Math.round((this.time - new Date().getTime()) / (1000 * 60));
+  }
+
+  get inMinutesFormat() {
+    switch(true) {
+      case this.inMinutes <= 0: return "due"; break;
+      case this.inMinutes <= 1: return `${this.inMinutes} min`; break;
+      default: return `${this.inMinutes} mins`
+    }
+  }
 }
 
-function updateTimeTable() {
+function refreshTimeTable() {
   if (timeTableItems) {
     timeTableItems.forEach((t, i) => {
       var el = document.getElementById('tti_' + i);
       if (el) {
-        var mins = calcActualTimeToStationMinutes(t.timeAtStation);
-        var minStr = calcActualTimeToStationMinutesStr(mins);  
-        el.innerText = minStr;
-        if (mins < 0) {
+        el.innerText = timeDisplayFunction(t.timeAtStation);
+        if (t.timeAtStation.inMinutes < 0) {
           el.style.color = "#FF0000";
         }
       }
     });
   }
+}
+
+function updateTimeTable() {
+  refreshTimeTable();
   setTimeout(updateTimeTable, 1000);
 }
 
@@ -315,6 +345,20 @@ function toggleIdleTimerState() {
   }    
 }
 
+function toggleTimeFormat() {
+  var el = document.getElementById("toggleTimeFormatImg");
+  if (el) {
+    if (parseFloat(el.style.opacity) === 1) {
+      el.style.opacity = 0.5;
+      timeDisplayFunction = DISPLAY_MINUTES;
+    } else {
+      el.style.opacity = 1.0;
+      timeDisplayFunction = DISPLAY_HOUR;
+    }
+    refreshTimeTable();
+  }    
+}
+
 function setElementVisibility(id, visible) {
   var el = document.getElementById(id);
   if (el) {
@@ -326,14 +370,12 @@ async function displayTimeTable(timeTableDataPromise) {
   var stopInfo = await timeTableDataPromise;
   var times = stopInfo.timeTable;
   timeTableItems = times;
-  times.sort((a,b) => a.timeAtStation - b.timeAtStation);		
+  times.sort((a,b) => a.timeAtStation.inMinutes - b.timeAtStation.inMinutes);		
   var output = "";
   output += "<div class='depb'><span class='left'>" + stopInfo.stop.name + " [" +  stopInfo.stop.letter + "]" + "</span></div>";
   output += "<div class='depb'><span class='right'>To " + stopInfo.stop.towards + "</span></div>";
   times.forEach((t, i) => {
-    var mins = calcActualTimeToStationMinutes(t.timeAtStation);
-    var minStr = calcActualTimeToStationMinutesStr(mins);
-    output += "<div class='depb'><span class='left'>" + t.line + "</span><span id='tti_" + i + "' class='right'>" + minStr + "</span></div>";
+    output += "<div class='depb'><span class='left'>" + t.lineName + "</span><span id='tti_" + i + "' class='right'>" + timeDisplayFunction(t.timeAtStation) + "</span></div>";
   });
   document.getElementById("timeTableDiv").innerHTML=output;
   showReloadButtonVisibility(true);
