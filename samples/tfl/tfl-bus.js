@@ -3,12 +3,7 @@
 @BaseURL("https://api.tfl.gov.uk")
 */
 
-var timeTableItems;
 var dist = 500/2;
-
-const DISPLAY_MINUTES = timeAtStation => timeAtStation.inMinutesFormat
-const DISPLAY_HOUR = timeAtStation => timeAtStation.inHourFormat
-let timeDisplayFunction = DISPLAY_MINUTES;
 
 var searchTypePromise = Alert.alert("Choose Stop Search Type:", "", [{text: "By Letter"}, {text: "By Name"}]);
 
@@ -42,7 +37,14 @@ runjs.custom.reload();
 //
 // Functions
 //
+var timeTableItems;
+var prevTimeTableItems;
+
 var idleTimerState = true;
+
+const DISPLAY_MINUTES = timeAtStation => timeAtStation.inMinutesFormat
+const DISPLAY_HOUR = timeAtStation => timeAtStation.inHourFormat
+let timeDisplayFunction = DISPLAY_MINUTES;
 
 function calcLongDist(lat){return 111-((111/90)*Math.abs(lat))}
 function longitudeDistanceToDegree(latitude, meters) {return (meters/(1000 * calcLongDist(latitude)))}
@@ -273,6 +275,10 @@ class TimeTableItem {
     this.timeAtStation = new TimeAtStation(secondsToStation);
     this.lineName = lineName;
     this.vehicleId = vehicleId;
+
+    this.clone = function() {
+      return new TimeTableItem(vehicleId, lineName, secondsToStation);
+    }
   }
 
 }
@@ -280,7 +286,7 @@ class TimeTableItem {
 class TimeAtStation {
 
   constructor(secondsToStation) {
-    this.time = (secondsToStation * 1000) + new Date().getTime()
+    this.time = (secondsToStation * 1000) + new Date().getTime();
   }
 
   get inHourFormat() {
@@ -303,6 +309,7 @@ class TimeAtStation {
       default: return `${this.inMinutes} mins`
     }
   }
+
 }
 
 function refreshTimeTable() {
@@ -314,6 +321,10 @@ function refreshTimeTable() {
         if (t.timeAtStation.inMinutes < 0) {
           el.style.color = "#FF0000";
         }
+      }
+      var pel = document.getElementById('ptti_' + i);
+      if (pel) {
+        pel.innerText = getPrevTimeToDisplay(t);
       }
     });
   }
@@ -366,16 +377,50 @@ function setElementVisibility(id, visible) {
   }    
 }
 
+function cloneTimeTable() {
+  var cloned;
+  if (timeTableItems) {
+    cloned = timeTableItems.map(item => item.clone());
+  }
+  return cloned;
+}
+
+function findFirstWith(timeTableItems) {
+  return {
+    byVehicleId: function(vehicleId) {
+      const filtered = (timeTableItems?timeTableItems:[]).filter(i => i.vehicleId == vehicleId);
+      let firstItem;
+      if (filtered.length>0) {
+        firstItem = filtered[0];
+      }
+      return firstItem;
+    }
+  }
+}
+
+function getPrevTimeToDisplay(item) {
+  const prevItem = findFirstWith(prevTimeTableItems).byVehicleId(item.vehicleId);
+  let prevTimeStr = "";
+  if (prevItem && Math.abs(prevItem.timeAtStation.inMinutes - item.timeAtStation.inMinutes) > 1) {
+    prevTimeStr = timeDisplayFunction(prevItem.timeAtStation);
+  }
+  return prevTimeStr;
+}
+
 async function displayTimeTable(timeTableDataPromise) {
   var stopInfo = await timeTableDataPromise;
   var times = stopInfo.timeTable;
+  prevTimeTableItems = cloneTimeTable();
   timeTableItems = times;
   times.sort((a,b) => a.timeAtStation.inMinutes - b.timeAtStation.inMinutes);		
   var output = "";
   output += "<div class='depb'><span class='left'>" + stopInfo.stop.name + " [" +  stopInfo.stop.letter + "]" + "</span></div>";
   output += "<div class='depb'><span class='right'>To " + stopInfo.stop.towards + "</span></div>";
   times.forEach((t, i) => {
-    output += "<div class='depb'><span class='left'>" + t.lineName + "</span><span id='tti_" + i + "' class='right'>" + timeDisplayFunction(t.timeAtStation) + "</span></div>";
+    output += `<div class='depb'><span class='left'>${t.lineName}</span>
+    <span id='tti_${i}' class='right'>${timeDisplayFunction(t.timeAtStation)}</span>
+    <span id="ptti_${i}" class="right" style="opacity:0.3; margin-right: 10px;">${getPrevTimeToDisplay(t)}</span>
+    </div>`;
   });
   document.getElementById("timeTableDiv").innerHTML=output;
   showReloadButtonVisibility(true);
