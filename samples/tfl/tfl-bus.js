@@ -401,7 +401,7 @@ function findFirstWith(timeTableItems) {
 function getPrevTimeToDisplay(item) {
   const prevItem = findFirstWith(prevTimeTableItems).byVehicleId(item.vehicleId);
   let prevTimeStr = "";
-  if (prevItem && Math.abs(prevItem.timeAtStation.inMinutes - item.timeAtStation.inMinutes) > 1) {
+  if (prevItem && Math.abs(prevItem.timeAtStation.time - item.timeAtStation.time) > 60 * 1000) {
     prevTimeStr = timeDisplayFunction(prevItem.timeAtStation);
   }
   return prevTimeStr;
