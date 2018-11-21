@@ -277,7 +277,11 @@ class TimeTableItem {
     this.vehicleId = vehicleId;
 
     this.clone = function() {
-      return new TimeTableItem(vehicleId, lineName, secondsToStation);
+      let item = new TimeTableItem(vehicleId, lineName, 0);
+      let timeAtStation = new TimeAtStation(0);
+      timeAtStation.time = this.timeAtStation.time;
+      item.timeAtStation = timeAtStation;
+      return item;
     }
   }
 
