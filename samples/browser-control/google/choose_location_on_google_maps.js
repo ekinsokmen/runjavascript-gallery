@@ -3,6 +3,7 @@
 */
 
 function main() {
+    setupExtentions();
     if (isTopFrame()) {
         if (location.host != "www.google.com") {
             redirectToGoogle();
@@ -12,23 +13,22 @@ function main() {
     }
 }
 
+function setupExtentions() {
+    String.prototype.matchFirstGroup = function(r){var m=this.match(r); return m && m.length >=2 ? m[1] : ""};
+}
+
 function getLocationData() {
-    var urlParts = location.href.split('/');
-    if (urlParts[4] != "place") {
-        return {};
+    var result = {
+        url: location.href,
+        address: location.href.matchFirstGroup(/place\/([^\/]*)\//)
     }
-    var address = decodeURIComponent(urlParts[5]).replace(/[\+,]/g," ");
-    var coordParts = decodeURIComponent(urlParts[6]).replace(/[@z]/g, "").split(',');
-    var latitude = coordParts[0];
-    var longitude = coordParts[1];
-    var altitude = coordParts[3];
-    return {
-        address: address,
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
-        altitude: parseFloat(altitude),
-        url: location.href
-    };
+    var coordinateData = location.href.matchFirstGroup(/@([0-9\.\-,]*)z/).split(",");
+    if (coordinateData.length>=3) {
+        result.latitude =  parseFloat(coordinateData[0]);
+        result.longitude = parseFloat(coordinateData[1]),
+        result.altitude = parseFloat(coordinateData[2]);
+    }
+    return result;
 }
 
 runjs.custom={};
