@@ -1,6 +1,6 @@
-[Workflow](https://workflow.is/) is a an automation tool for IOS. It is a powerful companion for RunJavaScript app. 
+[Shortcuts](https://support.apple.com/en-us/HT208309) is a an automation tool for IOS. It is a powerful companion for RunJavaScript app. 
 
-# Useful Workflows
+# Useful Shortcuts
 
 ## Open URL in RunJavaScript
 Workflow to load a script from given URL and pass the content to RunJavaScript. It is an action extension. You can trigger it from safari or other browser. If the URL is a github file, raw version will be loaded instead. 
@@ -16,7 +16,7 @@ Action extension workflow to open input file in RunJavaScript editor.
 
 # Sample Workflows
 ## Battery Meter
-RunJavaScript and Workflow integration pattern using openXCallBackURL. [Read more ...](https://github.com/ekinsokmen/runjavascript-gallery/blob/master/how-to/integration/workflow/battery-meter/README.md)
+RunJavaScript and Workflow integration pattern using openXCallBackURL. [Read more ...](battery-meter/README.md)
 
 ## Watermark
-Add a watermark text on top of images using RunJavaScript and Workflow. [Read more ...](https://github.com/ekinsokmen/runjavascript-gallery/blob/master/how-to/integration/workflow/watermark/README.md)
+Add a watermark text on top of images using RunJavaScript and Workflow. [Read more ...](watermark/README.md)
