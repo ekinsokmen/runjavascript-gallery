@@ -5,7 +5,7 @@
 
 * [API and usage documentation](http://www.runjavascriptapp.com/)
 * [Installation Page](how-to/installation/README.md) to get started to run scripts in RunJavaScript app
-* [Samples](samples/README.md) section for example shortcuts & script
+* 🆕[Samples](samples/README.md) section for example shortcuts & script
 
 Feel free to share your public scripts or tips here.
 
